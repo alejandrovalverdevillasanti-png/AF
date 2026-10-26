@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - name: Descomprimir proyecto
+        run: |
+          unzip -q Drag-n-Ball-AF_repo_listo.zip -d project
+          ls project
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -16,10 +20,10 @@ jobs:
         with:
           gradle-version: '8.8'
       - name: Build
-        run: gradle build --no-daemon
+        run: gradle build --no-daemon -p project
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: legacy-of-the-saiyans-forge-1.20.1
-          path: build/libs/*.jar
+          path: project/build/libs/*.jar
           if-no-files-found: error
